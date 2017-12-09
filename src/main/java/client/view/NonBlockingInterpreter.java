@@ -62,8 +62,9 @@ public class NonBlockingInterpreter implements Runnable {
                     case INPUT:
                         if(Integer.parseInt(cmdLine.getParameter(0))<10 && Integer.parseInt(cmdLine.getParameter(0))>0)
                         server.sendInput(Integer.parseInt(cmdLine.getParameter(0)));
-                        else
-                        outMgr.println("Please input a number between 1 and 9 where you wish to put your mark.");    
+                        else{
+                        outMgr.println("Please input a number between 1 and 9 where you wish to put your mark."); 
+                        }
                         break;
                     default:
                         server.sendWrongInput();
