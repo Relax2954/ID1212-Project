@@ -114,7 +114,7 @@ public class ClientHandler implements Runnable {
                             BuffMyTurn = createBufferedMessage("Now it is " + gamelogiccc.getCurrentPick() + " turn to play");
                             sendMsg(BuffMyTurn);
                         }
-                        if (gamelogiccc.isWon()) { //This if statement is here because I don't want to print out the score after each input, only after increase
+                        if (gamelogiccc.isWon()) { //This if statement is here because I 
                             if (gamelogiccc.getWinner() == 'X') {
                                 score1 = myscore1.scoreincrement1();
                             } else {
