@@ -90,7 +90,7 @@ public class ClientHandler implements Runnable {
                         if (gameentry.toLowerCase().contains("game".toLowerCase())) {
                             gamelogiccc = new GameLogicC();
                             gamelogcheckerTable = gamelogiccc.checkerTableString;
-                            BuffCheckerString = createBufferedMessage(gamelogcheckerTable + "\n Now it is X turn to play. \n Please note that this is a regular tic tac toe. All regular rules apply.");
+                            BuffCheckerString = createBufferedMessage(gamelogcheckerTable + "\n Please note that this is a regular tic tac toe. All regular rules apply. \n Now it is X turn to play.");
                             sendMsg(BuffCheckerString);
                         } else {
                             ByteBuffer BuffNotification = createBufferedMessage("Please start game or continue playing.");

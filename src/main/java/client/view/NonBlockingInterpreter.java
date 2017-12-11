@@ -70,7 +70,7 @@ public class NonBlockingInterpreter implements Runnable {
                         server.sendWrongInput();
                 }
             } catch (Exception e) {
-                outMgr.println("Operation failed");
+                outMgr.println("Unable to do the specified operation. Please check the values you input.");
             }
         }
     }
