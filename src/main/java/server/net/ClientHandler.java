@@ -101,7 +101,7 @@ public class ClientHandler implements Runnable {
                         tempor = controller.MidAction(inputInt);
                         BufferedTempor = createBufferedMessage(tempor);
                         sendMsg(BufferedTempor);
-                        if (!controller.isWon() || controller.isFinished() != 0) {
+                        if (!controller.isWon() && controller.isFinished() != 0) {
                             BuffMyTurn = createBufferedMessage("Now it is " + controller.getCurrentPick() + " turn to play");
                             sendMsg(BuffMyTurn);
                         }

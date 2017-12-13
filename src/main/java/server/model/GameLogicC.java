@@ -102,7 +102,7 @@ public class GameLogicC {
         if(!checkerTableString.contains("1") && !checkerTableString.contains("2") && !checkerTableString.contains("3")
                 && !checkerTableString.contains("4") && !checkerTableString.contains("5") && !checkerTableString.contains("6")
                 && !checkerTableString.contains("7") && !checkerTableString.contains("8") && !checkerTableString.contains("9")){
-            currentstate=0;
+            this.currentstate=0;
         }
         
     }
