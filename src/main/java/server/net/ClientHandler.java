@@ -16,8 +16,7 @@ import Protocol.common.MsgType;
 import Protocol.common.MessageSplitter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import server.model.GameLogicC;
-import server.model.Scoring;
+import server.controller.Controller;
 
 /**
  *
@@ -37,20 +36,15 @@ public class ClientHandler implements Runnable {
     private String input = null;
     private int inputInt = 0;
     private boolean connected;
-    private String tempor; //this is for just printiing out the current ___f__c__
-    String gamelogcheckerTable;
-    GameLogicC gamelogiccc;
-    private volatile int score1 = 0;
-    private volatile int score2 = 0;
+    private String tempor; //this is for just printiing out the current ___fc__
     ByteBuffer BufferedTempor;
     private String infomsg;
     ByteBuffer Buffinfomsg;
     ByteBuffer BuffMyTurn;
     ByteBuffer BufferedScore;
     ByteBuffer BuffCheckerString;
-    Scoring myscore1;
-    Scoring myscore2;
-    private char mark;
+
+    Controller controller;
 
     /**
      * Creates a new instance, which will handle communication with one specific
@@ -60,8 +54,7 @@ public class ClientHandler implements Runnable {
      * connected.
      */
     ClientHandler(TheServer server, SocketChannel clientChannel) {
-        myscore1 = new Scoring();
-        myscore2 = new Scoring();
+        controller = new Controller();
         this.server = server;
         this.clientChannel = clientChannel;
         connected = true;
@@ -88,10 +81,9 @@ public class ClientHandler implements Runnable {
                     case START:
                         String gameentry = msg.msgBody;
                         if (gameentry.toLowerCase().contains("game".toLowerCase())) {
-                            gamelogiccc = new GameLogicC();
-                            gamelogcheckerTable = gamelogiccc.checkerTableString;
-                            BuffCheckerString = createBufferedMessage(gamelogcheckerTable + "\n Please note that this is a regular tic tac toe. All regular rules apply. \n Now it is X turn to play.");
+                            BuffCheckerString = createBufferedMessage(controller.gamelogcheckerTable + "\n Please note that this is a regular tic tac toe. All regular rules apply. \n Now it is X turn to play.");
                             sendMsg(BuffCheckerString);
+                            controller.res();
                         } else {
                             ByteBuffer BuffNotification = createBufferedMessage("Please start game or continue playing.");
                             sendMsg(BuffNotification);
@@ -100,27 +92,22 @@ public class ClientHandler implements Runnable {
                     case INPUT:
                         input = msg.msgBody;
                         inputInt = Integer.parseInt(input);
-                        if (gamelogiccc.getWinner() != null || gamelogiccc.isFinished() == 0) {
+                        if (controller.getWinner() != null || controller.isFinished() == 0) {
                             infomsg = "Please start a new game. The last one has finished.";
                             Buffinfomsg = createBufferedMessage(infomsg);
                             sendMsg(Buffinfomsg);
                             break;
                         }
-                        gamelogiccc.gamelogic(inputInt);
-                        tempor = gamelogiccc.checkerTableString;
+                        tempor = controller.MidAction(inputInt);
                         BufferedTempor = createBufferedMessage(tempor);
                         sendMsg(BufferedTempor);
-                        if (!gamelogiccc.isWon() || gamelogiccc.isFinished() != 0) {
-                            BuffMyTurn = createBufferedMessage("Now it is " + gamelogiccc.getCurrentPick() + " turn to play");
+                        if (!controller.isWon() || controller.isFinished() != 0) {
+                            BuffMyTurn = createBufferedMessage("Now it is " + controller.getCurrentPick() + " turn to play");
                             sendMsg(BuffMyTurn);
                         }
-                        if (gamelogiccc.isWon()) { //This if statement is here because I 
-                            if (gamelogiccc.getWinner() == 'X') {
-                                score1 = myscore1.scoreincrement1();
-                            } else {
-                                score2 = myscore2.scoreincrement2();
-                            }
-                            BufferedScore = createBufferedMessage(gamelogiccc.getWinner() + " The total score: " + "Player 1: " + score1 + " Player 2: " + score2);
+                        if (controller.isWon()) { //This if statement is here because I 
+                            controller.scoreIncrement();
+                            BufferedScore = createBufferedMessage(controller.getWinner()+" won." + " The total score: " + "Player 1: " + controller.score1 + " Player 2: " + controller.score2);
                             sendMsg(BufferedScore);
                         }
                         break;

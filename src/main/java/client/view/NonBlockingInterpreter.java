@@ -68,9 +68,10 @@ public class NonBlockingInterpreter implements Runnable {
                         break;
                     default:
                         server.sendWrongInput();
+                        outMgr.println("Check the the server!");
                 }
             } catch (Exception e) {
-                outMgr.println("Unable to do the specified operation. Please check the values you input.");
+                outMgr.println("Unable to do the specified operation. Please check the values you input, and check the server.");
             }
         }
     }

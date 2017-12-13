@@ -122,6 +122,13 @@ public class GameLogicC {
     public int isFinished(){
         return this.currentstate;
     }
+    public void setisFinished(){
+        this.currentstate=1;
+    }
+    public void setisWon(){
+        this.winner=null;
+    }
+    
 
     private void checkIfWinner() {
         for (int i = 0; i < checkerTable.length; i++) {
